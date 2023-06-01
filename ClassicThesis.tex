@@ -1,0 +1,264 @@
+% **************************************************************************************************************
+% A Classic Thesis Style
+% An Homage to The Elements of Typographic Style
+%
+% Copyright (C) 2018 André Miede and Ivo Pletikosić
+%
+% If you like the style then I would appreciate a postcard. My address
+% can be found in the file ClassicThesis.pdf. A collection of the
+% postcards I received so far is available online at
+% http://postcards.miede.de
+%
+% License:
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 2 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; see the file COPYING.  If not, write to
+% the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+% Boston, MA 02111-1307, USA.
+%
+% PLEASE SEE ALSO THE AUTHORS' NOTE REGARDING THIS LICENSE
+% IN THE DOCUMENTATION (ClassicThesis.pdf --> Chapter 1 / Chapter01.tex)
+% **************************************************************************************************************
+\RequirePackage{silence} % :-\
+    \WarningFilter{scrreprt}{Usage of package `titlesec'}
+    %\WarningFilter{scrreprt}{Activating an ugly workaround}
+    \WarningFilter{titlesec}{Non standard sectioning command detected}
+\documentclass[ twoside,
+openright,
+titlepage,
+numbers=noenddot,%1headlines,
+                headinclude,
+                footinclude,
+                cleardoublepage=empty,
+                abstract=on,
+                BCOR=5mm,
+                paper=letter,
+                % DIV=11,
+                fontsize=12pt
+                ]{scrreprt}
+
+%********************************************************************
+% Note: Make all your adjustments in here
+%*******************************************************
+\input{classicthesis-config}
+\usepackage{cleveref}
+\usepackage{epigraph}
+\setlength{\epigraphrule}{0pt}
+\usepackage{lipsum}
+
+% kanika's packages
+
+\makeatletter
+
+\usepackage{setspace}
+\usepackage{epsfig}  % for figures
+\usepackage{latexsym}
+\usepackage{graphicx}  % another package that works for figures
+% \usepackage{subfigure}  % for subfigures
+\usepackage{amsmath}  % for math spacing
+\usepackage{pifont}
+% \usepackage{amssymb}  % for math spacing
+\usepackage{url}  % Hyphenation of URLs.
+\urlstyle{tt}
+\usepackage{lscape}  % Useful for wide tables or figures.
+\usepackage{booktabs} % For formal tables
+\usepackage{multirow}
+\usepackage{subcaption} % causes a problem in classicthesis; clash with package subfigure
+
+\usepackage{capt-of}
+\usepackage{comment}
+%\usepackage{algorithm2e}
+\usepackage{etoolbox,siunitx}
+
+\sisetup{
+  group-four-digits = true,
+  detect-mode = true,
+  round-mode = places,
+  round-precision = 2,
+  separate-uncertainty=true,
+  detect-display-math = true,
+%   table-number-alignment = center,
+  group-separator = {,},
+  uncertainty-separator = {\,}
+}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage[chapter]{algorithm}
+\usepackage[normalem]{ulem}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{setspace}
+
+\usepackage{algpseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\lnb}[1]{%
+  \ln\mleft(#1\mright)%
+}
+\usepackage{mleftright}
+\usepackage{bbm}
+\usepackage{bm}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{xfrac}
+\usepackage[flushleft]{threeparttable}
+\usepackage[super]{nth}
+\usepackage{enumitem}
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\ccmark}{\cmark \cmark}%
+\newcommand{\cccmark}{\cmark \cmark \cmark}%
+\newcommand{\ccccmark}{\cmark \cmark \cmark \cmark}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\xxmark}{\xmark \xmark}%https://www.overleaf.com/project/62abf9024addbb80356af46f
+\newcommand{\xxxmark}{\xmark \xmark \xmark}%
+\newcommand{\xxxxmark}{\xmark \xmark \xmark \xmark}%
+\newcommand{\usd}[1]{\SI{#1}[\$\ensuremath{\,}]{}}
+
+\usepackage{lettrine}
+% %%%%%%%%%%%%%%%%%
+
+% https://tex.stackexchange.com/questions/36608/classicthesis-text-area-dimensions-for-letter-size-paper
+% \usepackage{lipsum,fp}
+% \RequirePackage[letterpaper, top=1in, bottom=1.5in, 
+%   left=1.5in, right=1.5in,showframe=false]{geometry}
+% \makeatletter
+% \def\Htext{\strip@pt\textheight}
+% \def\Wtext{\strip@pt\textwidth}
+% \def\Hpaperheight{\strip@pt\paperheight}
+% \def\Wpaperwidth{\strip@pt\paperwidth}
+% \FPdiv\aspectpaper{\Hpaperheight}{\Wpaperwidth}
+% \FPdiv\aspect{\Htext}{\Wtext}
+% \FPmul\paperarea{\Hpaperheight}{\Wpaperwidth}
+% \FPmul\textarea{\Htext}{\Wtext}
+% \FPdiv\ratio{\textarea}{\paperarea}
+% \makeatother
+
+%********************************************************************
+% Bibliographies
+%*******************************************************
+\addbibresource{Bibliography.bib}
+\addbibresource[label=ownpubs]{samraj_pubs.bib}
+
+\usepackage{printlen} % debug
+
+%********************************************************************
+% Hyphenation
+%*******************************************************
+%\hyphenation{put special hyphenation here}
+
+% ********************************************************************
+% GO!GO!GO! MOVE IT!
+%*******************************************************
+
+% \includeonly{Chapters/Chapter03}
+
+\begin{document}
+\frenchspacing
+\raggedbottom
+\selectlanguage{american} % american ngerman
+%\renewcommand*{\bibname}{new name}
+%\setbibpreamble{}
+\pagenumbering{roman}
+\pagestyle{plain}
+%********************************************************************
+% Frontmatter
+%*******************************************************
+% \include{FrontBackmatter/DirtyTitlepage}
+\include{FrontBackmatter/Titlepage}
+\include{FrontBackmatter/Titleback}
+\cleardoublepage\include{FrontBackmatter/Dedication}
+%\cleardoublepage\include{FrontBackmatter/Foreword}
+\cleardoublepage\include{FrontBackmatter/Abstract}
+\cleardoublepage\include{FrontBackmatter/Publications}
+\cleardoublepage\include{FrontBackmatter/Acknowledgments}
+\cleardoublepage\include{FrontBackmatter/Contents}
+%********************************************************************
+% Mainmatter
+%*******************************************************
+\cleardoublepage
+\pagestyle{scrheadings}
+\pagenumbering{arabic}
+%\setcounter{page}{90}
+% use \cleardoublepage here to avoid problems with pdfbookmark
+% \cleardoublepage
+\chapter{Introduction}\label{chp:intro}
+\include{Chapters/introduction}
+% \cleardoublepage
+
+\ctparttext{
+    \lipsum[1]
+% You can put some informational part preamble text here.
+% Illo principalmente su nos. Non message \emph{occidental} angloromanic
+% da. Debitas effortio simplificate sia se, auxiliar summarios da que,
+% se avantiate publicationes via. Pan in terra summarios, capital
+% interlingua se que. Al via multo esser specimen, campo responder que
+% da. Le usate medical addresses pro, europa origine sanctificate nos se.
+}
+\chapter{Related Work}\label{chp:relworks}
+\include{Chapters/related_works}
+
+\ctparttext{
+    \lipsum[2]
+}
+\chapter{Style Infusion as a Control}\label{chp:style_infusion}
+\input{Chapters/style_infusion/chapter_summary}
+\input{Chapters/style_infusion/discriminator}
+\input{Chapters/style_infusion/generator}
+\input{Chapters/style_infusion/experimental_settings}
+\input{Chapters/style_infusion/results}
+\input{Chapters/style_infusion/discussion}
+\input{Chapters/style_infusion/conclusion}
+
+\ctparttext{
+    \lipsum[3]
+}
+
+\chapter{Controllable Stylistic Generation}\label{chp:control_gen}
+\input{Chapters/control_tuning/chapter_summary}
+\input{Chapters/control_tuning/neural_editor}
+\input{Chapters/control_tuning/modified_architecture}
+\input{Chapters/control_tuning/conclusion}
+
+\chapter{Conclusions}
+\label{chp:concl}
+\input{Chapters/conclusion}  % Inserts content from "conclusion.tex" here
+
+\chapter{Future Directions}
+\label{chp:future}
+\input{Chapters/future_directions.tex}
+
+\ctparttext{
+    \lipsum[3]
+}
+%\addtocontents{toc}{\protect\clearpage} % <--- just debug stuff, ignore
+% \include{Chapters/Chapter03}
+%\include{multiToC} % <--- just debug stuff, ignore for your documents
+% ********************************************************************
+% Backmatter
+%*******************************************************
+\appendix
+%\renewcommand{\thechapter}{\alph{chapter}}
+\cleardoublepage
+\chapter{Appendix}
+\include{Chapters/appendix}
+%********************************************************************
+% Other Stuff in the Back
+%*******************************************************
+\cleardoublepage\include{FrontBackmatter/Bibliography}
+% \cleardoublepage\include{FrontBackmatter/Declaration}
+% \cleardoublepage\include{FrontBackmatter/Colophon}
+% ********************************************************************
+% Game Over: Restore, Restart, or Quit?
+%*******************************************************
+\end{document}
+% ********************************************************************

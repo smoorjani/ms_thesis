@@ -1,0 +1,18 @@
+% \section{Conclusion}
+% p1 summarize findings p2 consequences/impact
+This thesis investigates how to synthesize persuasive content through a combination of state-of-the-art natural language generation techniques and theoretical constructs from advertising and journalism. 
+
+In~\Cref{chp:style_infusion}, we introduced \textit{style infusion} to motivate infusing audience-centric, stylistic preferences into unconstrained natural language generation models. We present a bootstrapped data augmentation method for limited pair-wise audience feedback and an adversarial training framework with a decoupling loss to train a style-infused GPT-2. Through an automatic evaluation method for the transfer of audience-specific styles, we show that our approach generates compelling stylized examples with generic text prompts better than the baselines. 
+
+In~\Cref{chp:control_gen}, we experiment with novel approaches for controllable natural language generation to condition text on a "tuning-knob" for target controls (\eg speed). We present a modified prototype-then-edit model \citep{guu2018generating} and empirically show that our modifications lead to a substantial control on speed. We then alter our architecture from~\Cref{chp:style_infusion} to adversarially enforce a desired change in speed, finding that it can control speed, although less strongly than the previous approach.
+
+Synthesizing text with highly subjective styles, such as persuasion and memorability, remains a significant challenge in domains like computational advertising. Our work takes the first few steps to address this problem, and we hope to inspire future research on this topic with this thesis. Ultimately, we aspire for the persuasive text generation systems we develop to be used with abstractive summarization techniques for scientific literature to generate more approachable and appealing science communication.
+
+We mention the limitations of our work in~\Cref{sec:limitations} and then address the ethical implications of this thesis in~\Cref{sec:ethics}.
+
+\input{Chapters/limitations.tex}
+
+\input{Chapters/ethics_statement.tex}
+
+
+

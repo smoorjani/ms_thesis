@@ -1,0 +1,74 @@
+\part{Feature Agreement}
+\label{apx:featureagreement}
+
+% Persuasiveness Correlation Results
+\begin{table*}[ht!]
+\caption{\label{tab:feature-evaluation}Significance tests on the change in features between a pretrained GPT-2 model and a trained model. In order, these features are: Brunet Index (BI), Length (in characters), Total Dependencies (TD), Total Dependency Distance (TDD), Average Syllables per Word, Flesh-Kincaid readability score, Ratio of Jargon (i.e. out of vocab words), Flesch readability score, Token Type Ratio (TTR), Ratio of Present Tense Verbs, Speed, and Volume. In the table, the number of checks or crosses indicates the level of p-value and the correctness of the direction of the trend. Note that \cmark : $p < 0.05$, \ccmark : $p < 0.01$, \cccmark : $p < 0.001$, \ccccmark : $p < 0.0001$.}
+\scalebox{0.7}{
+\begin{tabular}{|l|cccccc|cccccc|}
+\hline
+Model    & BI                                            & Length                                        & TD                                            & TDD                                           & Syllables           & Flesch-Kincaid                        & Jargon       & Flesch                                        & TTR                                   & Present                                       & Speed                                 & Volume                                \\ \hline
+GPT2     & -                                             & -                                             & -                                             & -                                             & -                   & -                                     & -            & -                                             & -                                     & -                                             & -                                     & -                                     \\
+GPT2-16k & \cmark                                  & \xxxxmark         & \xxxxmark         & -                                             & -                   & -                                     & \xmark & -                                             & \ccmark                   & \xxxxmark & -                                     & \ccccmark \\
+GPT2-Aug & \ccccmark & \ccccmark & \cmark                                  & \ccccmark & -                   & \xxxxmark & -            & \xxxxmark & \cmark                            & -                                             & \ccccmark & \ccmark                   \\
+TStylist & \cmark & \ccccmark & \cccmark                                  & - & \ccmark                   & \xxxxmark & \xxxxmark            & \xxxxmark & \cmark                            & -                                             & \cccmark & \cccmark                   \\ \hline
+AP-0.1   & \ccccmark & \ccccmark & \ccmark                       & \ccccmark & -                   & \xxxxmark & -            & \xxxxmark & \ccmark                   & \cmark                                    & \ccmark                   & \cccmark          \\
+AP-1.0   & \ccccmark & \ccccmark & \cmark                                  & \ccccmark & -                   & \xxxxmark & -            & \xxxxmark & \ccmark                   & -                                             & \cccmark          & \ccccmark \\
+SD-0.1  & -                                             & -                                             & \cmark                                  & -                                             & \xxmark & \xxxxmark & -            & \xxxxmark & \xmark                          & -                                             & \cmark                            & -                                     \\
+SD-0.5  & \ccccmark & \ccccmark & \ccccmark & \ccccmark & -                   & -                                     & -            & \xmark                                  & \ccccmark & \ccccmark         & \ccccmark & \ccccmark \\
+SD-0.8  & -                                             & \ccccmark & \ccccmark & \cmark                                  & -                   & \xxmark                   & -            & \xxxmark            & \ccmark                   & \cmark                                    & \ccccmark & \ccccmark \\
+SD-1.0  & \ccccmark & \ccccmark & \ccccmark & \cccmark            & \xmark          & -                                     & -            & -                                             & \ccccmark & \ccccmark         & \ccccmark & \ccccmark \\ \hline
+\end{tabular}}
+\end{table*}
+
+% Memorability Correlation Results
+\begin{table*}[ht!]
+\caption{\label{tab:mem-feature-evaluation}Significance tests on the change in features between a pretrained GPT-2 model and a trained model. In order, these features are: Length (in characters), Brunet Index (BI), Total Dependency Distance (TDD), Total Dependencies (TD), Circuitousness, Punctuation Rate, Past, Pronoun Rate, Closed Class Word (CCW) Rate, Token Type (TTR) Ratio, Average Dependency Distance (ADD), Average Dependencies (AD). In the table, the number of checks or crosses indicates the level of p-value and the correctness of the direction of the trend. Note that \cmark : $p < 0.05$, \ccmark : $p < 0.01$, \cccmark : $p < 0.001$, \ccccmark : $p < 0.0001$.}
+\scalebox{0.65}{
+\begin{tabular}{|l|cccccc|cccccc|}
+\hline
+Model    & Length                                            & BI                                        & TDD                                            & TD                                           & Circuitousness           & PunctRate                        & Past       & Pronoun Rate                                        & CCW Rate                                   & TTR                                       & ADD                                 & AD                                \\ \hline
+GPT2     & -                                             & -                                             & -                                             & -                                             & -                   & -                                     & -            & -                                             & -                                     & -                                             & -                                     & -                                     \\
+GPT2-IMDB & - & \ccccmark                                 & \xxmark & - & \xmark                   & \cmark & \cccmark            & \xxxxmark & \ccccmark                            & -                                             & \ccccmark & \ccccmark                   \\
+GPT2-Aug & \ccccmark & \ccccmark                                  & \ccccmark & \ccccmark & \ccccmark                   & \cmark & \ccccmark            & \xxxxmark & \xxxxmark                            & \ccccmark                                             & \xxxxmark & \xxxxmark                   \\ 
+TStylist & \ccccmark & \ccccmark & \cccmark & \cccmark & \cccmark & \cmark & \ccccmark & \xxxmark & - & \ccccmark & \xxxmark & \ccccmark \\\hline
+AP-0.1 & \ccccmark & \ccccmark & \ccccmark & \ccccmark & \ccccmark & - & \ccccmark & \xxxxmark & \xxxxmark & \ccccmark & \xxxxmark & \xxxxmark  \\
+AP-1.0 & \ccccmark & \ccccmark & \ccccmark & \ccccmark & \ccccmark & - & \ccccmark & \xxxxmark & \xxxxmark & \ccccmark & \xxxxmark & \xxxxmark  \\
+SD-0.1 & \ccccmark & \ccccmark & \ccccmark & \ccccmark & \ccccmark & - & \ccccmark & \xxxxmark & \xxxmark & \ccccmark & \xxxxmark & \xxxxmark  \\
+SD-0.5   & \ccccmark & \ccccmark                                  & \ccccmark & \ccccmark & \ccccmark                   & \cmark & \ccccmark            & \xxxmark & \ccccmark                            & \ccccmark                                             & \ccmark & \ccccmark  \\
+SD-0.8 & \ccccmark & \ccccmark & \ccccmark & \ccccmark & \ccccmark & - & \ccccmark & \xxxxmark & \xxmark & \ccccmark & \xxxxmark & \xxxxmark  \\
+SD-1.0  & \ccccmark & \ccccmark                                  & \ccccmark & \ccccmark & \ccccmark                   & \ccmark & \ccccmark            & \xxxxmark & \cccmark                            & \ccccmark                                             & \cmark & \ccccmark  \\ \hline
+\end{tabular}}
+\end{table*}
+
+To demonstrate feature agreements, we calculate a weighted average to quantify the results of~\Cref{tab:feature-evaluation} in the context of the full feature set, using the correlations obtained from the Bayesian model as weights. The results are shown in~\Cref{tab:agreement-evaluation}. 
+
+  \begin{table*}[ht!]
+  \centering
+  \caption{Percentage agreement with the linguistic feature correlations calculated using the hierarchical Bayesian model. Baseline models: GPT2, GPT-2 fine-tuned on UKPConvArg1 or the Cornell Movie Quotes corpus, GPT-2 with augmented data, and TitleStylist \citep{jin2020hooks}. Our models are trained on augmented data and a sample-dependent discriminator (SD) or sample-dependent supervised (SS) loss with parameter $\beta$. We show that our models are significantly better at learning stylistic features compared to our baselines.}
+  \label{tab:agreement-evaluation}
+  \scalebox{0.8}{
+  \begin{tabularx}{0.6\linewidth}{@{}>{\raggedright\arraybackslash}Xccc@{}}
+   \toprule[1.5pt]
+  \textsc{Model} & \textsc{Persuasiveness}            & \textsc{Memorability}   \\     
+  \midrule[0.75pt]
+GPT2     & 29.51          & 40.71                 \\
+GPT2-FT  & 41.03          & 46.22                  \\
+GPT2-Aug & 44.01          & 51.26                \\
+TStylist & 35.76          & 43.86                   \\
+  \midrule[0.75pt]
+  % \addlinespace[0.5em]
+SS-0.1   & 42.26          & 49.70                \\
+SS-1.0   & 48.57          & 44.97                   \\
+SD-0.1  & 43.58          & 48.73                 \\
+SD-0.5  & 48.56          & \textbf{62.35} \\
+SD-0.8  & 50.04          & 48.14              \\
+SD-1.0  & \textbf{50.18}          & 55.61                   \\
+  \bottomrule[1.5pt]\\
+  \end{tabularx}}
+  \end{table*}
+
+\part{Collected Linguistic Features}
+\label{apx:lfc}
+
+We collected the following linguistic features: length, verb tenses (e.g. future, past, etc.), punctuation rates, readability scores (Flesch score, Flesch-Kincaid score, Gunning Fog score, SMOG score, Dale-Chall score), part of speech rates (noun rate, verb rate, demonstrative rate, adjective rate, adposition rate, adverb rate, auxiliary rate, conjunction rate, determiner rate, interjection rate, numeral rate, particle rate, pronoun rate, proper noun rate, punctuation rate, subordinating conjunction rate, symbol rate, possessive rate), ratios of part of speech (e.g. noun-verb ratio, noun ratio, pronoun-noun ratio, closed-class word rate, open-class word rate), dependency information (total dependency distance, average dependency distance, total dependencies, average dependencies),  content density, idea density, lexical diversity statistics (Honore statistic, Brunet index), type token ratio, average word length, proportion of inflected verbs, proportion of auxiliary verbs, proportion of gerund verbs, proportion of participles, proportion of mispelled words, amount of alliteration, passive voice, average number of syllables, proportion of jargon, proportion of MTCG verbs (Modal, Tentative, Certainty, Generalizing), rates of named-entity recognition (NER) tags (e.g. PERSON, DATE, CARDINAL, WORK OF ART, NORP, Certainty, GPE, ORG, LOC, PERCENT, MONEY, QUANTITY, TIME, PRODUCT, EVENT, LANGUAGE, FAC), and word embedding-based measures (i.e. speed, volume, circuitousness) \citep{toubia-2021}. The NER tags were obtained from the spaCy library \citep{spacy2} and many of the linguistic features are obtained from the blabla library \citep{shivkumar2020blabla}.

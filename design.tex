@@ -1,0 +1,78 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[theoremfont,tighter,p,osf,largesc]{newpxtext}
+\usepackage{newpxmath}
+\usepackage{calculator}
+\usepackage{calc}
+% \usepackage[osf]{libertine}
+\usepackage{printlen}
+\usepackage{siunitx}
+\sisetup{
+    round-mode=places,
+    round-precision=2
+}
+
+\begin{document}
+This is to set the sizes of the textblock based on Robert Bringhurst's book.
+
+% \usepackage{typearea}
+\COPY{12}{\selectedfontsize}
+\newlength{\CharsLX}% Width of 60 characters 
+\settowidth{\CharsLX}{\textrm{abcdefghijklmnopqrstuvwxyz}} 
+\setlength{\CharsLX}{\CharsLX} 
+% $\selectedfontsize $ \verb|pt. Palatino alphabet length| is \printlength{\CharsLX}
+
+$\selectedfontsize \text{ pt Palatino alphabet length is: }$  \printlength{\CharsLX}\\
+The footskip is: \printlength{\footskip}\\
+The head height is: \printlength{\headheight}\\
+The head separation is: \printlength{\headsep}
+
+% in classic thesis, this is what I get
+% The footskip is: 50.75pt
+% The head height is: 17.0pt
+% The head separation is: 21.75pt
+%  The sum is 89.5 pt not 75
+
+
+
+% set the number of pica
+
+\COPY{32}{\numpica}
+% $\text{The number of pica }:\numpica$ \\
+\MULTIPLY{12}{\numpica}{\textblockwidth}
+% $\text{The textblock width }:\textblockwidth$ \\
+
+
+% well known ratios
+% golden section is 1.62
+% hexagon is 1.73
+
+% \COPY{1.62}{\heightratio}
+\COPY{1.73}{\heightratio}
+
+\MULTIPLY{\heightratio}{\textblockwidth}{\textblockheight}
+% $\text{The textblock height }:\textblockheight$ \\
+
+% classic thesis needs to include the header and the footer
+% + 33 head + 42 head \the\footskip
+
+\ADD{75}{\textblockheight}{\adjustedheight}
+\COPY{\CharsLX}{\w}
+
+
+\begin{align}
+    \text{The number of pica: } & \numpica\\
+    \text{The textblock width: } &\textblockwidth\, \text{pt}\\
+    \text{The adjusted textblock height with ratio }\heightratio  \text{ is: }&\num{\adjustedheight} \, \text{pt}
+\end{align}
+
+
+
+% \verb|\numpica| is \printlength{\numpica}
+
+
+
+
+
+\end{document}
+
+

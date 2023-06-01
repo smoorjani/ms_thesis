@@ -1,0 +1,33 @@
+% Persuasiveness Scorer Section
+\section{Discriminative Language Model}
+\label{sec_discriminator}
+
+In this section, we train a BERT-based style discriminator on pairwise audience judgements to provide feedback to our generator. In~\Cref{subsec:discrim_arch}, we describe the architecture and training details along with the pairwise feedback datasets in~\Cref{subsection:pairwise_datasets}. Then in~\Cref{subsec:discrim_obse}, we present the results of the style discriminator and in~\Cref{subsec:siamesebert}, we describe an alternate approach with a Siamese BERT discriminator.
+
+\subsection{Model Architecture and Training}
+\label{subsec:discrim_arch}
+
+Our style discriminator (style analysis module) adds a fully connected (FC) layer with dropout to pre-trained BERT~\citep{devlin-etal-2019-bert}. We use the 'bert-base-uncased' model from the Huggingface Transformers library \citep{wolf2019} (12-layers, 768 dimension). We concatenate with a '$\langle$SEP$\rangle$' token and jointly tokenize the compared pair of sentences. The FC layer generates a single output ($\mathbb{R}^{768} \rightarrow \mathbb{R}$). We threshold the sigmoid of the output at 0.5 to decide the preferred sentence. We train all layers (including BERT) on the pairwise audience feedback (batch size 32, 5 epochs, $\eta=0.0001$, dropout~$=0.2$). 
+% We also train a Siamese BERT architecture \citep{reimers2019} with the same settings but find it to underperform BERT (results in~\Cref{subsec:siamesebert}).
+
+\subsection{Pairwise Feedback Datasets}
+\label{subsection:pairwise_datasets}
+% Quantifying a specific style of an argument is a challenging task for humans, but labeling which of two arguments is more likely to contain that style is much easier. 
+We select one pairwise feedback dataset for both the persuasiveness and memorability tasks to evaluate our approach. The UKPConvArg1 corpus~\citep{habernal-gurevych-2016-argument} presents pairs of arguments where human annotators select the more persuasive argument. The authors generate 16,000 argument pairs over 16 distinct, non-overlapping topics. Both arguments in a pair belong to the same topic and argue for the same stance (\ie parallel pairwise feedback). For memorability, we leverage the Cornell Movie-Quotes Corpus~\citep{danescu-niculescu-mizil-etal-2012-hello}, containing 2,200 paired movie quotes with crowd-sourced memorability annotations. 
+
+\subsection{Observations and Validation}
+\label{subsec:discrim_obse}
+Our discriminator achieves 89\% accuracy over 5-fold cross-validation for the persuasiveness task. We further validate for overfitting by holding out two topics from the test set and training on the remaining topics, ensuring the discriminator has no exposure to these held-out topics during training. After training from scratch, the discriminator still achieves 87\% accuracy on the held-out topics. On the Cornell Movie-Quotes corpus, the discriminator achieves  80\% accuracy. We repeat the held-out topic test to validate the classification performance for the memorability task.
+
+In summary, these tests validate the ability of our style discriminator to learn audience style preferences with small volumes of pairwise feedback. In \Cref{sec_generator}, we describe our approach to infuse the style discriminator feedback into a generative language model.
+
+\subsection{Siamese BERT Discriminator}
+\label{subsec:siamesebert}
+
+To further validate our results, we tried another architecture, similar to Siamese BERT \citep{reimers2019}, where we tokenized the texts individually and passed them through their own BERT layers, producing two embeddings, $e_1$ and $e_2$. We concatenated the two outputs along with the distance between the two as follows:
+\begin{equation}
+    [e_1 ; e_2 ; |e_2 - e_1|]
+\end{equation}
+We passed this new vector of $\mathbb{R}^{3 \times h}$, where $h$ is the hidden dimension of BERT, through a fully connected classification layer.
+
+While the original discriminator achieves approximately 89\% accuracy on the random test set, the Siamese BERT model achieves a smaller, but still significant, 83\% accuracy. On the Cornell Movie-Quotes corpus, with the same hyperparameters, the original discriminator achieves 80\% accuracy and a 77\% accuracy with the Siamese BERT architecture. We choose to use the simpler discriminator architecture because it seems to capture style better than the Siamese BERT architecture. 

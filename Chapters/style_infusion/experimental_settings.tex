@@ -1,0 +1,55 @@
+\section{Experiments}
+\label{sec:si_experiments}
+
+In this section, we describe the baseline approaches (\S\ref{subsec:si_baseline}) along with the experimental settings used (\S\ref{subsec:si_exp}). In~\Cref{sec:style_strength}, we present our novel automatic evaluation method for the strength of the infused style. Lastly, in~\Cref{subsec:si_similarity}, we discuss the automatic lexical and semantic similarity metrics used to evaluate our approach.
+
+\subsection{Baselines}
+\label{subsec:si_baseline}
+
+We compare our architecture against a few strong baselines:
+
+\textit{\textbf{Pretrained GPT-2}} \citep{radford2019language} We use this pre-trained model as a representation of average text, allowing us to show shifts in style that occur due to training.
+
+\textit{\textbf{Fine-tuning}} We fine-tune the pre-trained GPT-2 model using the reconstruction objective on the style-specific corpus only (e.g. UKPConv1).
+
+\textit{\textbf{Fine-tuning + Data Augmentation}}  We fine-tune the pre-trained GPT-2 model using the reconstruction objective on the augmented data.
+
+\textit{\textbf{TitleStylist}} \citep{jin2020hooks} We adapt the stylistic headline generation framework to generate stylistic text based on a prompt. \citet{jin2020hooks} utilize a Denoising Autoencoder with parameter sharing to disentangle style from content to control the style with a set of parameters.  
+
+\subsection{Experimental Settings}
+\label{subsec:si_exp}
+For all GPT-2 based models, we use a base GPT-2 model from Huggingface \citep{wolf2019} (1024 dimensions, Adam optimizer, $\eta = 5e-5$). Because of the length of our text and size of our models, we utilize DeepSpeed \citep{rasley-2020-deepspeed} to distribute training over two 32GB V100s, and we train with FP16 mixed precision. We experiment with the loss parameters of $C$ and $\beta$ and discuss our findings in~\cref{section:discussion}. 
+% , using $0.1, 0.5, 0.8$, and $1.0$. We also experiment with hard-coded values of the coefficients in the weighted loss. For example, we tried a setting with 90\% of the weight going to $L_{R}$ and 10\% going to $L_{S}$. 
+
+% \section{Evaluation Metrics} 
+% In this section, we detail the evaluation metrics used to ensure our model was able to effectively transfer style while preserving content and fluency.
+
+\subsection{Infused Style Strength}
+\label{sec:style_strength}
+
+We take a deeper look into the annotator labels in the UKPConvArg1 dataset and we find that some linguistic features play a significant role in the persuasiveness of text. We create a hierarchical Bayesian model to find the correlation between a set of collected linguistic features and the desired style. We first take the unique sentences from a dataset and compute a set of linguistic features over them. A full list of features can be found in~\Cref{apx:lfc}.
+
+We define the hierarchical Bayesian model as a binomial distribution around $p$. Note that text A always demonstrates the style more strongly than text B or equally to text B. We calculate $p$ as follows:
+
+\begin{equation}
+    logit_p = \bar{p} + (\alpha[A_{id}] - \beta[B_{id}]) + \gamma[t] * (A_{ft} - B_{ft})
+\end{equation}
+
+where $\bar{p}$ is the intercept, $\alpha$ and $\beta$ are meant to capture any existing bias towards either text and $\gamma$ measures the correlation between the linguistic feature and the style for a specific topic $t$. We construct $\alpha$ and $\beta$ for all texts, hence why we index them with $A_{id}$ and $B_{id}$, respectively. Similarly, we construct $\gamma$ for each topic. $A_{ft}$ and $B_{ft}$ are the features of text A and B, respectively. $\alpha$, $\beta$, and $\gamma$ are all constructed similarly. Let's take $\alpha$ as an example:
+
+\begin{equation}
+    \alpha = \bar{\alpha} + \alpha_{v} \alpha_{\sigma}
+\end{equation}
+
+where $\bar{\alpha} \sim \mathcal{N}(0, 0.25)$ and $\alpha_{\sigma}$ is drawn from an exponential distribution with $\lambda = 1$. We construct a separate $\alpha_{v}$ for each unique $A_{id}$ where each $\alpha_{v} \sim \mathcal{N}(0, 1.0)$. These values are chosen because they help the MCMC sampling converge. $\beta$ and $\gamma$ follow the same construction except with different shapes for $\beta_{v}$ and $\gamma_{v}$. 
+
+For each linguistic feature-topic pair, we infer the correlation between the feature and the text that demonstrates the style by running a Markov Chain Monte-Carlo (MCMC) process using the No-U-Turn Sampler (NUTS). During the training of the hierarchical Bayesian model, we use 1000 warmup steps and generate an additional 1000 samples. Note that the results we show are in the logit scale, meaning even a change of $\mp 1$ has a big effect on the probability (about a 23\% difference in odds of winning).  
+
+The models then generate text based on the prompts in a held-out test set and we calculate the features of the generations. We run a t-test to determine if the difference in features between a pretrained GPT-2 and one of our models is statistically significant. This evaluation shows how our trained model learns to use these linguistic features to construct more stylized arguments.
+
+\subsection{Semantic and Lexical Similarity Metrics}
+\label{subsec:si_similarity}
+
+In addition, we use \textit{pyrouge} library to collect the ROUGE \citep{lin-2004-rouge} score, a commonly used metric that measures the N-gram overlap between the training and generated arguments. While these scores will not tell us how persuasive our generations are, they will ensure that the generations remain on topic.
+
+Lastly, we compute the BERTScore \citep{zhang2019bertscore}, another automatic evaluation metric that computes token similarity using contextual embeddings. The BERTScore represents the semantic similarity of the generations to the test set which will ensure generations are relevant, but not necessarily persuasive.

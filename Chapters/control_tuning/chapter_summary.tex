@@ -1,0 +1,23 @@
+In this chapter, we explore controllable text generation methods for complex linguistic features. Specifically, we target speed \citep{toubia-2021}, a measure of how quickly the content in text changes, for two reasons. First, we find a strong correlation between persuasive text and speed in~\Cref{sec:pers_results}. Furthermore, it does not fit cleanly into existing control conditions (\eg semantic, structural, or lexical) explored by existing work because it is a mix of semantic and structural conditions. We compute speed as 
+
+\begin{equation}
+s = \frac{\sum_{t=1}^{T-1} \|x_{t+1} - x_{t}\|}{T-1}    
+\end{equation}
+
+where $T$ is the number of windows in a document, and $x_t$ is the word embedding of the $t$-th window. We use a window size of $n = 3$ across all experiments.
+
+Our task is sequence-to-sequence: given a sentence $x$ with speed $s$ and a speed control $\Delta$, we want to generate a new sentence $x'$ with speed $s'$ such that $s' - s = \Delta$. We explore two main frameworks to achieve this ``tuning knob''-like control: 
+
+\begin{itemize}
+    \item \textbf{Prototype-then-Edit Model}: \citet{guu2018generating} propose a generative language model that edits prototype sentences by altering the latent representation. We condition the edits, allowing us to control the speed of generated text.
+    \item \textbf{Adversarial Control}: We alter our architecture from~\Cref{chp:style_infusion} to adversarially control the speed of generated text with a trained attribute regressor.
+    % \item \textbf{Diffusion-LM}: \citep{li2022diffusion} apply diffusion models to text generation, exhibiting control by conditioning the intermediate latent variables. We apply a control on speed to empirically investigate the strength of control on generated text.
+\end{itemize}
+
+Our abbreviated contributions are as follows: 
+\begin{enumerate}
+    \item \textbf{Controllable Generation}: We modify prior works \citep{guu2018generating, moorjani-etal-2022-audience}, allowing for controllable text generation. Through quantitative and qualitative evaluations, we show that our methods lead to coherent, relevant, and controlled generations.
+    \item \textbf{Nonstandard Controls}: We apply controllable text generation methods on nonstandard control conditions (\ie not within semantic, structural, or lexical controls). Through both approaches, we demonstrate control over features such as speed \citep{toubia-2021}.
+\end{enumerate}
+
+% \newpage
